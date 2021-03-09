@@ -1,20 +1,42 @@
-//Validar si estamos en local host o en el 
-
-const url = window.location.href;
-const swLocation ='/WebAppCitas/sw.js';
-
-
 //Revisar si el navegador soporta service worker
 if('serviceWorker' in navigator){
 
-    if(url.includes('localhost')){
-        swLocation = '/sw.js';
-    }
-
     //registramos nuestro sw.js y esto nos retornara un Promise
-    navigator.serviceWorker.register(swLocation)
+    navigator.serviceWorker.register('/sw.js')
         .then(registrado => console.log('Se instalo correctamente', registrado))
         .catch(error => console.log('Fallo la instalacion', error))
 }else{
     console.log('Service Workers no soportados');
 }
+
+// Code to handle install prompt on desktop
+
+let deferredPrompt;
+const addBtn = document.querySelector('.add-button');
+addBtn.style.display = 'none';
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  // Update UI to notify the user they can add to home screen
+  addBtn.style.display = 'block';
+
+  addBtn.addEventListener('click', () => {
+    // hide our user interface that shows our A2HS button
+    addBtn.style.display = 'none';
+    // Show the prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the A2HS prompt');
+      } else {
+        console.log('User dismissed the A2HS prompt');
+      }
+      deferredPrompt = null;
+    });
+  });
+});
+
