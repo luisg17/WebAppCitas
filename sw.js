@@ -3,12 +3,12 @@ const nombreCache = 'apv-v1';
 const archivos = [
     //Para evitar error de ruta colocamos un . es decir la ruta relativa
       // '/',
-    '/index.html',
-    '/error.html',
-    '/css/bootstrap.css',
-    '/css/styles.css',
-    '/js/app.js',
-    '/js/apv.js'
+    '/WebAppCitas/index.html',
+    '/WebAppCitas/error.html',
+    '/WebAppCitas/css/bootstrap.css',
+    '/WebAppCitas/css/styles.css',
+    '/WebAppCitas/js/app.js',
+    '/WebAppCitas/js/apv.js'
 ];
 
 
